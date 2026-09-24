@@ -1,0 +1,43 @@
+import streamlit as st
+from data_processing import clean_and_prepare_data
+from components.sidebar import render_sidebar
+from components.tab_eda import render_tab_eda
+from components.tab_timeseries import render_tab_timeseries
+from components.tab_dataset import render_tab_dataset
+from components.tab_forecasting import render_tab_forecasting
+
+# Page Config
+st.set_page_config(page_title="Revenue EDA & Forecasting Dashboard", layout="wide")
+
+st.title("📊 National Revenue EDA & Forecasting Dashboard")
+st.markdown("ប្រព័ន្ធសម្អាតទិន្នន័យ វិភាគ Time Series និងព្យាករណ៍ចំណូលចរន្តថវិការដ្ឋ (2005–2024)")
+
+# Sidebar & File Upload
+uploaded_file = render_sidebar()
+
+if uploaded_file is not None:
+    # 1. Clean Data
+    df_current = clean_and_prepare_data(uploaded_file)
+
+    # 2. Tabs Navigation
+    tab1, tab2, tab3, tab4 = st.tabs([
+        "📊 EDA & Visualizations", 
+        "📈 Time-Series Analysis", 
+        "🎯 Clean Dataset", 
+        "🎯 Model Forecasting & Prediction"
+    ])
+
+    with tab1:
+        render_tab_eda(df_current)
+
+    with tab2:
+        render_tab_timeseries(df_current)
+
+    with tab3:
+        render_tab_dataset(df_current)
+
+    with tab4:
+        render_tab_forecasting(df_current)
+
+else:
+    st.info("👋 សូម Upload ឯកសារ CSV នៅ Sidebar ខាងឆ្វេង ដើម្បីចាប់ផ្តើមវិភាគ EDA និង Forecast!")

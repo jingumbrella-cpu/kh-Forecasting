@@ -1,0 +1,10 @@
+streamlit
+pandas
+numpy
+plotly
+statsmodels
+scikit-learn
+openpyxl
+matplotlib
+reportlab
+streamlit-authenticator
